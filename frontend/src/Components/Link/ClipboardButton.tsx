@@ -2,7 +2,7 @@ import copy from 'copy-to-clipboard';
 import React, { useCallback, useEffect, useState } from 'react';
 import FormInputButton from 'Components/Form/FormInputButton';
 import Icon from 'Components/Icon';
-import ScreenReaderOnly from 'Components/ScreenReaderOnly';
+import StatusIndicator from 'Components/StatusIndicator';
 import { icons, kinds } from 'Helpers/Props';
 import translate from 'Utilities/String/translate';
 import { ButtonProps } from './Button';
@@ -19,6 +19,7 @@ export default function ClipboardButton({
   id,
   value,
   label,
+  title = translate('CopyToClipboard'),
   className = styles.button,
   ...otherProps
 }: ClipboardButtonProps) {
@@ -58,19 +59,27 @@ export default function ClipboardButton({
   return (
     <FormInputButton
       className={className}
-      aria-label={translate('CopyToClipboard')}
+      title={title}
+      aria-label={title}
       onClick={handleClick}
       {...otherProps}
     >
       <span className={state ? styles.showStateIcon : undefined}>
         {state ? (
-          <span className={styles.stateIconContainer}>
+          <StatusIndicator
+            className={styles.stateIconContainer}
+            label={translate(
+              state === 'error' ? 'CopyToClipboardError' : 'CopiedToClipboard'
+            )}
+            role={state === 'error' ? 'alert' : 'status'}
+            aria-atomic={true}
+          >
             <Icon
               name={state === 'error' ? icons.DANGER : icons.CHECK}
               kind={state === 'error' ? kinds.DANGER : kinds.SUCCESS}
               aria-hidden={true}
             />
-          </span>
+          </StatusIndicator>
         ) : null}
 
         <span className={styles.clipboardIconContainer}>
@@ -78,16 +87,6 @@ export default function ClipboardButton({
           <Icon name={icons.CLIPBOARD} aria-hidden={true} />
         </span>
       </span>
-
-      {state ? (
-        <ScreenReaderOnly role="status">
-          {translate(
-            state === 'success'
-              ? 'CopiedToClipboard'
-              : 'UnableToCopyToClipboard'
-          )}
-        </ScreenReaderOnly>
-      ) : null}
     </FormInputButton>
   );
 }

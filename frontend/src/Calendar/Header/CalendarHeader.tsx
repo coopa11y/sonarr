@@ -7,12 +7,14 @@ import {
 import { CalendarView } from 'Calendar/calendarViews';
 import getCalendarViewLabel from 'Calendar/getCalendarViewLabel';
 import useCalendar, {
+  goToDate,
   goToNextRange,
   goToPreviousRange,
   goToToday,
   useCalendarRange,
   useCalendarTime,
 } from 'Calendar/useCalendar';
+import DateInput from 'Components/DateInput';
 import Icon from 'Components/Icon';
 import Button from 'Components/Link/Button';
 import LoadingIndicator from 'Components/Loading/LoadingIndicator';
@@ -46,6 +48,18 @@ function CalendarHeader() {
   const handleNextPress = useCallback(() => {
     goToNextRange();
   }, []);
+
+  const datePickerValue = useMemo(() => {
+    if (view === 'month') {
+      return moment(time).startOf('month').format('YYYY-MM-DD');
+    }
+
+    if (start) {
+      return moment(start).format('YYYY-MM-DD');
+    }
+
+    return '';
+  }, [view, time, start]);
 
   const title = useMemo(() => {
     const timeMoment = moment(time);
@@ -164,6 +178,14 @@ function CalendarHeader() {
           >
             {translate('Today')}
           </Button>
+
+          <DateInput
+            className={styles.datePicker}
+            value={datePickerValue}
+            label={translate('GoToDate')}
+            isDisabled={view === 'agenda'}
+            onChange={goToDate}
+          />
         </div>
       </div>
 

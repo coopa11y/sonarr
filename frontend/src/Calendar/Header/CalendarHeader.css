@@ -15,6 +15,12 @@
   margin-left: 5px;
 }
 
+.datePicker {
+  composes: dateInput from '~Components/DateInput.css';
+
+  margin-left: 5px;
+}
+
 .title {
   margin-top: 5px;
   margin-bottom: 0;
