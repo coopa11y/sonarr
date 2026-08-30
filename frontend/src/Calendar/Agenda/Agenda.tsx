@@ -1,21 +1,21 @@
+import moment from 'moment-timezone';
 import React from 'react';
 import useCalendar from 'Calendar/useCalendar';
 import ScreenReaderOnly from 'Components/ScreenReaderOnly';
 import { useUiSettingsValues } from 'Settings/UI/useUiSettings';
 import { CalendarItem } from 'typings/Calendar';
-import { convertToTimezone } from 'Utilities/Date/convertToTimezone';
 import translate from 'Utilities/String/translate';
 import AgendaEvent from './AgendaEvent';
 import styles from './Agenda.css';
 
 function Agenda() {
   const { data } = useCalendar();
-  const { longDateFormat, timeZone } = useUiSettingsValues();
+  const { longDateFormat } = useUiSettingsValues();
 
   const dateGroups = data.reduce<
     { date: string; label: string; items: CalendarItem[] }[]
   >((groups, item) => {
-    const date = convertToTimezone(item.airDateUtc, timeZone);
+    const date = moment(item.airDateUtc);
     const dateKey = date.format('YYYY-MM-DD');
     const lastGroup = groups[groups.length - 1];
 

@@ -19,6 +19,7 @@ export interface GeneralSettingsModel {
   launchBrowser: boolean;
   authenticationMethod: string;
   authenticationRequired: string;
+  allowedHosts: string;
   analyticsEnabled: boolean;
   username: string;
   password: string;
@@ -32,6 +33,7 @@ export interface GeneralSettingsModel {
   sslKeyPath: string;
   sslCertPassword: string;
   urlBase: string;
+  trustedNetworks: string;
   instanceName: string;
   applicationUrl: string;
   updateAutomatically: boolean;
