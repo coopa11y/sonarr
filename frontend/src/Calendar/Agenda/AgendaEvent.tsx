@@ -100,8 +100,7 @@ function AgendaEvent(props: AgendaEventProps) {
     title,
     airDate: `${startTime.format(longDateFormat)}, ${formatTime(
       airDateUtc,
-      timeFormat,
-      { timeZone }
+      timeFormat
     )}`,
     status: statusLabels.join('. '),
   });
